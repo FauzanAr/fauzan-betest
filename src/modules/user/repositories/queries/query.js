@@ -8,6 +8,12 @@ class Query {
         return result;
     }
 
+    async getUserByAccountNumber(accountNumber) {
+        const parameter = { accountNumber };
+        const result = await this.mongoDb.findOne('users', parameter);
+        return result;
+    }
+
 }
 
 module.exports = Query;

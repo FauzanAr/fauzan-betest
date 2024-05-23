@@ -10,12 +10,12 @@ class User {
     }
 
     async getUser(payload) {
-        const data = await this.userQuery.getUser(payload);
-        if (data.error) {
-            return data;
+        const result = await this.userQuery.getUser(payload.accountNumber);
+        if (!result || result.err || !result.data) {
+            return wrapper.error(new NotFoundError('No existing user!'));
         }
 
-        return data;
+        return wrapper.data(result.data);
     }
 
     async login(payload){
