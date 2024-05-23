@@ -1,6 +1,11 @@
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
+const fs = require('fs');
+const path = require('path');
+const jsYaml = require('js-yaml');
+const swaggerUi = require('swagger-ui-express');
+const swaggerDoc = jsYaml.load((fs.readFileSync(path.join(__dirname, '../documentation/swagger.yaml'), 'utf8')));
 
 const mongodb = require('../helpers/databases/mongodb/connection');
 const userHandlerApi = require('../modules/user/handlers/api');
@@ -12,6 +17,9 @@ class Server {
 
         this.server.use(cors());
         this.server.use(bodyParser.json());
+
+        // Documentation
+        this.server.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDoc));
 
         this.server.get('/test', (req, res) => {
             res.json({ message: 'server up and running' });

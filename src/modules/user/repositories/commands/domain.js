@@ -18,9 +18,11 @@ class User {
         }
 
         const query = {
-            email: payload.email
+            emailAddress: payload.emailAddress
         };
+        console.log(query)
         const bookedEmail = await this.userQuery.getUser(query);
+        console.log(bookedEmail)
         if (bookedEmail.data) {
             return wrapper.error(new EmailAlreadyInUseError());
         }

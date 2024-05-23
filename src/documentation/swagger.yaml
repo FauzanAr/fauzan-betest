@@ -1,0 +1,158 @@
+openapi: 3.0.0
+info:
+  title: ms-fauzan-betest
+  description: API Documentation
+  version: 0.1
+paths:
+  /user/v1:
+    get:
+      tags: 
+        - User
+      summary: Endpoint to get user by json token
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: OK
+        '404':
+          description: Not found error
+    post:
+      tags:
+       - User
+      summary: Endpoint to create user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                userName:
+                  type: string
+                accountNumber:
+                  type: number
+                emailAddress:
+                  type: string
+                identityNumber:
+                  type: number
+                password:
+                  type: string
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad request error
+        '4001':
+          description: Email already in use
+        '500':
+          description: Internal service error
+    put:
+      tags:
+        - User
+      summary: Endpoint to update user detail
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                userName:
+                  type: string
+                accountNumber:
+                  type: number
+                identityNumber:
+                  type: number
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad request error
+        '404':
+          description: Not found error
+    delete:
+      tags:
+        - User
+      summary: Endpoint to delete user data using token jwt
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad request error
+  /user/v1/login:
+    post:
+      tags:
+        - User
+      summary: Endpoint to login user and issue JWT token
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad request error
+        '404':
+          description: Not found error  
+  /user/v1/email:
+    put:
+      tags:
+        - User
+      summary: Endpoint to update email
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                newEmail: 
+                  type: string
+                password:
+                  type: string
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad request error
+        '404':
+          description: Not found error
+        '4001':
+          description: Email already in use
+  /user/v1/password:
+    tags:
+      - User
+    summary: Endpoint to update password
+    security:
+      - bearerAuth: []
+    requestBody:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              password:
+                type: string
+    responses:
+      '200':
+        description: OK
+      '400':
+        description: Bad request error
+      '404':
+        description: Not found error
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

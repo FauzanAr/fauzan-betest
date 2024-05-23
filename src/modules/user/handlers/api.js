@@ -6,7 +6,9 @@ const commandHandler = require('../repositories/commands/command_handler');
 const commandModel = require('../repositories/commands/command_model');
 
 const getUser = async (req, res) => {
-    const payload = req.user;
+    const payload = {
+        emailAddress: req.user.emailAddress
+    };
     const sendResponse = async (result) => {
         (result.err) ? wrapper.response(res, 'fail', result)
             : wrapper.response(res, 'success', result, 'Get User Success');

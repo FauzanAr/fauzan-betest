@@ -32,7 +32,7 @@ const checkErrorCode = (error) => {
         case ERROR.InternalServiceError:
             return status.HttpError.INTERNAL_SERVICE_ERROR;
         case ERROR.EmailAlreadyInUseError:
-            return status.HttpError.EMAIL_ALREADY_IN_USE;
+            return status.HttpError.BAD_REQUEST;
         case ERROR.UnauthorizedError:
             return status.HttpError.UNAUTHORIZED;
         default:
