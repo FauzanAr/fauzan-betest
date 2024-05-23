@@ -10,8 +10,7 @@ const verifyAuth = (req, res, next) => {
         const response = wrapper.error(new UnauthorizedError('Authorization not found!'));
         return wrapper.response(res, 'fail', response, 'Error Auth');
     }
-
-    const token = auth.split(' ');
+    const token = auth.split(' ')[1];
     if (!token) {
         const response = wrapper.error(new UnauthorizedError('Invalid Authorization token!'));
         return wrapper.response(res, 'fail', response, 'Error Auth');
@@ -26,7 +25,7 @@ const verifyAuth = (req, res, next) => {
         return wrapper.response(res, 'fail', response, 'Error Auth');
     }
 
-    req.user = decodedToken;
+    req.user = decodedToken.userData;
     next();
 };
 

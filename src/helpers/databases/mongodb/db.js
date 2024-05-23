@@ -69,6 +69,27 @@ class DB {
             return wrapper.error(`updateOne Error: ${error.message}`);
         }
     }
+
+    async deleteOne(collectionName, document) {
+        const result = await mongoConnection.getConnection();
+        if (result.err) {
+            return result;
+        }
+
+        try {
+            const connection = result.collection(collectionName);
+            const record = await connection.deleteOne(document);
+            if (!record || !record.deletedCount == 0) {
+                logger.error(`Error while deleteOne: ${record}`);
+                return wrapper.error('Failed insert data to database!');
+            }
+            
+            return wrapper.data(record);
+        } catch (error) {
+            logger.error(`deleteOne Error ${error}`);
+            return wrapper.error(`deleteOne Error: ${error.message}`);
+        }
+    }
 }
 
 module.exports = DB;
