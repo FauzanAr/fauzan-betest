@@ -1,10 +1,11 @@
 const { MongoClient } = require('mongodb');
 const logger = require('../../utils/logger');
 const wrapper = require('../../utils/wrapper');
+const config = require('../../config');
 
 let connectionPool = null;
-const url = 'mongodb://localhost:27017/db_fauzan_betest'; // add to config file
-const dbName = 'db_fauzan_betest'; // add to config file
+const url = config.mongodb.url;
+const dbName = config.mongodb.dbName;
 const createConnection = async () => {
     const options = {
         maxPoolSize: 20,

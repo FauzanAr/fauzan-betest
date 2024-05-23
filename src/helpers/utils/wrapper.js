@@ -31,6 +31,10 @@ const checkErrorCode = (error) => {
             return status.HttpError.NOT_FOUND;
         case ERROR.InternalServiceError:
             return status.HttpError.INTERNAL_SERVICE_ERROR;
+        case ERROR.EmailAlreadyInUseError:
+            return status.HttpError.EMAIL_ALREADY_IN_USE;
+        case ERROR.UnauthorizedError:
+            return status.HttpError.UNAUTHORIZED;
         default:
             return status.HttpError.INTERNAL_SERVICE_ERROR;
     }
