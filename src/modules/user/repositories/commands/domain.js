@@ -20,9 +20,7 @@ class User {
         const query = {
             emailAddress: payload.emailAddress
         };
-        console.log(query)
         const bookedEmail = await this.userQuery.getUser(query);
-        console.log(bookedEmail)
         if (bookedEmail.data) {
             return wrapper.error(new EmailAlreadyInUseError());
         }
@@ -118,6 +116,9 @@ class User {
         }
 
         const hashedPassword = await hash.hashPassword(payload.password);
+        if (!hashedPassword || hashedPassword.err) {
+            return wrapper.error(new BadRequestError('Error while hashing password!'))
+        }
         const updateDocument = {
             password: hashedPassword.data
         };
