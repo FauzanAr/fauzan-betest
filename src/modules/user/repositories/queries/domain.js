@@ -5,8 +5,8 @@ const auth = require('../../../../helpers/auth/jwt/middleware');
 const { NotFoundError, BadRequestError } = require('../../../../helpers/error');
 
 class User {
-    constructor(mongoDb) {
-        this.userQuery = new UserQuery(mongoDb);
+    constructor(mongoDb, redis) {
+        this.userQuery = new UserQuery(mongoDb, redis);
     }
 
     async getUser(payload) {
@@ -19,7 +19,11 @@ class User {
     }
 
     async getUserByAccount(payload) {
-        const result = await this.userQuery.getUserByAccountNumber(payload.accountNumber);
+        if (!payload.accountNumber) {
+            return wrapper.error(new BadRequestError('Account number not found!'));
+        }
+
+        const result = await this.userQuery.getUserByAccountNumber(Number(payload.accountNumber));
         if (!result || result.err || !result.data) {
             return wrapper.error(new NotFoundError('No existing user!'));
         }

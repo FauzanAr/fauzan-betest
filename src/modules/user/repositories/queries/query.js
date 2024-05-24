@@ -1,6 +1,7 @@
 class Query {
-    constructor(mongoDb) {
+    constructor(mongoDb, redis) {
         this.mongoDb = mongoDb;
+        this.redis = redis;
     }
 
     async getUser(parameter) {
@@ -9,9 +10,19 @@ class Query {
     }
 
     async getUserByAccountNumber(accountNumber) {
-        const parameter = { accountNumber };
-        const result = await this.mongoDb.findOne('users', parameter);
-        return result;
+        const key = `users:${accountNumber}`;
+        const cache = await this.redis.getData(key);
+        if (!cache || cache.err || !cache.data) {
+            const parameter = { accountNumber };
+            const result = await this.mongoDb.findOne('users', parameter);
+            if (result && result.data) {
+                await this.redis.setData(key, result.data);
+            }
+
+            return result;
+        }
+
+        return cache;
     }
 
 }

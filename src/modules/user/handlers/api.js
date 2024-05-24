@@ -129,6 +129,17 @@ const login = async (req, res) => {
     sendResponse(await getData(validatedPayload));
 }
 
+const getUserByAccount = async (req, res) => {
+    const payload = {
+        accountNumber: req.params.accountNumber
+    };
+    const sendResponse = async (result) => {
+        (result.err) ? wrapper.response(res, 'fail', result)
+            : wrapper.response(res, 'success', result, 'Get User Success');
+    };
+    sendResponse(await queryHandler.getUserByAccount(payload));
+}
+
 module.exports = {
     getUser,
     createUser,
@@ -137,4 +148,5 @@ module.exports = {
     updateUser,
     login,
     deleteUser,
+    getUserByAccount,
 }

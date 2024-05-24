@@ -130,26 +130,46 @@ paths:
         '4001':
           description: Email already in use
   /user/v1/password:
-    tags:
-      - User
-    summary: Endpoint to update password
-    security:
-      - bearerAuth: []
-    requestBody:
-      content:
-        application/json:
+    post:
+      tags:
+        - User
+      summary: Endpoint to update password
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                password:
+                  type: string
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad request error
+        '404':
+          description: Not found error
+  /user/v1/account/{accountNumber}:
+    get:
+      tags:
+        - User
+      summary: Endpoint to get user by account number
+      parameters:
+        - name: accountNumber
+          in: path
+          required: true
+          description: Account number user
           schema:
-            type: object
-            properties:
-              password:
-                type: string
-    responses:
-      '200':
-        description: OK
-      '400':
-        description: Bad request error
-      '404':
-        description: Not found error
+            type: string
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad request error
+        '404':
+          description: Not found error
 components:
   securitySchemes:
     bearerAuth:

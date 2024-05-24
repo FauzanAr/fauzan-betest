@@ -8,6 +8,7 @@ const swaggerUi = require('swagger-ui-express');
 const swaggerDoc = jsYaml.load((fs.readFileSync(path.join(__dirname, '../documentation/swagger.yaml'), 'utf8')));
 
 const mongodb = require('../helpers/databases/mongodb/connection');
+const redis = require('../helpers/databases/redis/connection');
 const userHandlerApi = require('../modules/user/handlers/api');
 const { verifyAuth } = require('../helpers/auth/jwt/middleware');
 
@@ -33,11 +34,13 @@ class Server {
         this.server.post('/user/v1/login', userHandlerApi.login);
         this.server.put('/user/v1/email', verifyAuth, userHandlerApi.updateEmailUser);
         this.server.put('/user/v1/password', verifyAuth, userHandlerApi.updatePasswordUser);
+        this.server.get('/user/v1/account/:accountNumber', userHandlerApi.getUserByAccount);
     }
 
     async init(port) {
         await Promise.all([
-            mongodb.init()
+            mongodb.init(),
+            redis.init(),
         ]);
         this.server.listen(port, () => {
             console.log(`App running on port: ${port}`);

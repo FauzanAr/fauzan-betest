@@ -1,8 +1,10 @@
 const User = require('./domain');
 const MongoDb = require('../../../../helpers/databases/mongodb/db');
+const Redis = require('../../../../helpers/databases/redis/db');
 
 const mongoDb = new MongoDb();
-const user = new User(mongoDb);
+const redis = new Redis();
+const user = new User(mongoDb, redis);
 
 const getUser = async (payload) => {
     const getData = async () => {
@@ -20,7 +22,16 @@ const login = async (payload) => {
     return result;
 }
 
+const getUserByAccount = async (payload) => {
+    const getData = async () => {
+        return await user.getUserByAccount(payload);
+    };
+    const result = await getData();
+    return result;
+}
+
 module.exports = {
     getUser,
     login,
+    getUserByAccount,
 }
