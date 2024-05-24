@@ -1,0 +1,8 @@
+{
+  "include": ["src/**/*.js"],
+  "exclude": ["test/**/*.spec.ts"],
+  "reporter": ["lcov", "text"],
+  "report-dir": "coverage",
+  "temp-dir": ".nyc_output",
+  "all": true
+}
