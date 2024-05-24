@@ -79,7 +79,7 @@ class DB {
         try {
             const connection = result.collection(collectionName);
             const record = await connection.deleteOne(document);
-            if (!record || !record.deletedCount == 0) {
+            if (!record || record.deletedCount == 0) {
                 logger.error(`Error while deleteOne: ${record}`);
                 return wrapper.error('Failed insert data to database!');
             }
