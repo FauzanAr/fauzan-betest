@@ -20,7 +20,6 @@ const verifyAuth = (req, res, next) => {
     try {
         decodedToken = jwt.verify(token, key);
     } catch (error) {
-        console.log(error);
         const response = wrapper.error(new UnauthorizedError('Failed to verify token!'));
         return wrapper.response(res, 'fail', response, 'Error Auth');
     }

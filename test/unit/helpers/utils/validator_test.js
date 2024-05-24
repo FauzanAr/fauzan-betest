@@ -30,12 +30,4 @@ describe('Utils Validator', () => {
             expect(res.data).to.not.null;
         })
     });
-
-    // describe('error', () => {
-    //     it('should return console', async () => {
-    //         sandbox.stub(console, 'error').returns('123');
-    //         const res = logger.error('');
-    //         expect(res).to.not.null;
-    //     });
-    // });
 })
